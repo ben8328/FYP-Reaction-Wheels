@@ -8,14 +8,11 @@ close all
 
 %% DC Motor Object
 motor.Kt = 0.01;  % torque constant [Nm/s]
-motor.Ke = 0.01;  % back-EMF constant []
+motor.Kt = 0.01;  % back-EMF constant [Nm/s]
 motor.Ra = 1;    % armature resistance [Ohms]
-motor.Jrw_x = 01;    % inertia of the x-axis reaction wheel [kg.sqm]
-motor.Jrw_y = 01;    % inertia of the y-axis reaction wheel [kg.sqm]
-motor.Jrw_z = 01;    % inertia of the z-axis reaction wheel [kg.sqm]
-motor.b = 0.1;   % friction [Nms]
-
 % motor.La = 0.5;  % [H]      %% ASSUME NO INDUCTANCE
+motor.Jrw_x = 01;    % inertia of the x-axis reaction wheel [kg.sqm]
+motor.b = 0.1;   % Nms
 
 %% Satellite Object
 sat.J1 = 2.5;    % kg.sqm
@@ -28,40 +25,40 @@ sat.I_z = 8;    % kg*m^2
 
 %% Transfer Functions
 % (https://ctms.engin.umich.edu/CTMS/index.php?example=MotorSpeed&section=SystemModeling)
-motor.tf_num = [motor.Kt/motor.Ra];
-motor.tf_den = [motor.Jrw_x, motor.b + (motor.Ke*motor.Kt)/motor.Ra];
-
+motor.tf_num = Kt/Ra;
+motor.tf_den = (J * s + b) * (Ra + La *s) + K^2;
+% 
 
 
 %% Stability Analysis
 % Obtained from Transfer Functions
-M = tf(motor.tf_num, motor.tf_den)
-% S = tf(1, [2.5 1.17 0]);
+M = tf(10, [50 60 1001]);
+S = tf(1, [2.5 1.17 0]);
 
 % First find Poles
 motor_pole = pole(M)    % Both negative is Stable
-% sat_pole = pole(S)
+sat_pole = pole(S)
 
 % root Locus
 figure()
 rlocus(M)
-% figure()
-% rlocus(S)
+figure()
+rlocus(S)
 
 % Bode Plot
 figure()
 margin(M)
 
-% figure()
-% margin(S)
+figure()
+margin(S)
 
 % Feedback loop
 figure()
 X_m = feedback(M,1)
 step(X_m)
 
-% figure()
-% X_s = feedback(S,1)
-% step(X_s)
+figure()
+X_s = feedback(S,1)
+step(X_s)
 
-% NOTE: Slow response time is ok
+% Slow response time is ok
