@@ -5,42 +5,47 @@ close all
 clear
 clc
 
+%% Cube Object Parameters
+cube.l = 0.075; % Centroid distance;
+cube.m = 1.2;
+
+cube.I_x = cube.m*cube.l^2
+cube.I_y = cube.m*cube.l^2
+cube.I_z = cube.m*cube.l^2
+
+
 %% DC Motor Object Parameters
-motor.Kt = 0.01;  % torque constant [Nm/s]
-motor.Ra = 1;    % armature resistance [Ohms]
-motor.I_rw = 01;    % inertia of the x-axis reaction wheel [kg.sqm]
-motor.b = 0.1;   % friction constant [Nms]
+motor.Kt = 0.0251;  % torque constant [Nm/s]
+motor.Ra = 0.0464;    % armature resistance [Ohms]
+motor.I_rw = 0.002;    % inertia of the x-axis reaction wheel [kg.sqm]
+motor.b = 0.01;   % friction constant [Nms]
 
 % Assume no Inductance (L) 
 
-%% Cube Object Parameters
-cube.I_x = 0.01;
-cube.I_y = 0.01;
-cube.I_z = 0.01;
-cube.l = 0.1; % Centroid distance;
-cube.m = 1.0;
+%% Define TransfoRation Matrix
+R_y = [cos(-35.3*pi/180) 0 sin(-35.3*pi/180); 0 1 0; -sin(-35.3*pi/180) 0 cos(-35.3*pi/180)];
+R_x = [1 0 0; 0 cos(45*pi/180) -sin(45*pi/180); 0 sin(45*pi/180) cos(45*pi/180)];
 
+T_bf = R_y * R_x;
 
 
 %% General Constants
 g = 9.81;
 
 %% Input Parameters
-% in.cube = [0 0 0]; % [alpha beta gamma]
-% in.rw = [0 0 0]; %  [phi theta psi]A, B, C
-
-% Cube Orientation
-in.phi = 45*pi/180;
-in.theta = 45*pi/180;
+% Desired Cube Orientation
+in.phi = 0*pi/180;
+in.theta = 0*pi/180;
 in.psi = 0*pi/180;
-
 
 %% Simulation Parameters
 
-sim.t = 10;
+sim.t = 15;
 
-sim.rw_ic = [0 0 0];
-sim.cube_ic_vel = [0 0 0];
-sim.cube_ic_pos = [0 0 0];  % Check this one
+sim.rw_ic = [0; 0; 0];
+sim.cube_ic_vel = [0; 0; 0];
+
+% This is the offset from origin (Balance) This data will come from IMU
+sim.cube_ic_pos = [5*pi/180; 0*pi/180; 0];  
 
 
