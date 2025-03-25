@@ -33,6 +33,35 @@ R_x = [1 0 0; 0 cos(45*pi/180) -sin(45*pi/180); 0 sin(45*pi/180) cos(45*pi/180)]
 params.T_bf = R_y * R_x;
 
 %% Linearied Matrics
+% A matrix
+params.A = [0, 0, 0, params.m*params.g*params.l/(params.Iy - params.Iw), 0, sqrt(6)*params.Kt^2/(3*params.Rm*(params.Iy - params.Iw)), -sqrt(6)*params.Kt^2/(3*params.Rm*(params.Iy - params.Iw)), -sqrt(6)*params.Kt^2/(3*params.Rm*(params.Iy - params.Iw));
+            0, 0, 0, 0, params.m*params.g*params.l/(params.Ix - params.Iw), 0, sqrt(3)*params.Kt^2/(3*params.Rm*(params.Ix - params.Iw)), -sqrt(3)*params.Kt^2/(3*params.Rm*(params.Ix - params.Iw));
+            0, 0, 0, 0, 0, -sqrt(3)*params.Kt^2/(3*params.Rm*(params.Iz - params.Iw)), -sqrt(3)*params.Kt^2/(3*params.Rm*(params.Iz - params.Iw)), -sqrt(3)*params.Kt^2/(3*params.Rm*(params.Iz - params.Iw));
+            1, 0, 0, 0, 0, 0, 0, 0;
+            0, 1, 0, 0, 0, 0, 0, 0;
+            0, 0, 1, 0, 0, -params.Kt^2/(params.Rm*params.Iw), 0, 0;
+            0, 0, 0, 0, 0, -params.Kt^2/(params.Rm*params.Iw), -params.Kt^2/(params.Rm*params.Iw), 0;
+            0, 0, 0, 0, 0, -params.Kt^2/(params.Rm*params.Iw), 0, -params.Kt^2/(params.Rm*params.Iw)];
 
+% B matrix
+params.B = [sqrt(6)*params.Kt/(3*params.Rm*(params.Iy - params.Iw)), sqrt(6)*params.Kt/(6*params.Rm*(params.Iy - params.Iw)), sqrt(6)*params.Kt/(6*params.Rm*(params.Iy - params.Iw));
+            0, sqrt(2)*params.Kt/(2*params.Rm*(params.Ix - params.Iw)), sqrt(2)*params.Kt/(2*params.Rm*(params.Ix - params.Iw));
+            -sqrt(3)*params.Kt/(3*params.Rm*(params.Iz - params.Iw)), -sqrt(3)*params.Kt/(3*params.Rm*(params.Iz - params.Iw)), -sqrt(3)*params.Kt/(3*params.Rm*(params.Iz - params.Iw));
+            0, 0, 0;
+            0, 0, 0;
+            params.Kt/(params.Rm*params.Iw), 0, 0;
+            0, params.Kt/(params.Rm*params.Iw), 0;
+            0, 0, params.Kt/(params.Rm*params.Iw)];
+
+% C matrix
+params.C = [0, 0, 1, 0, 0, 0, 0, 0;
+            0, 0, 0, 1, 0, 0, 0, 0;
+            0, 0, 0, 0, 1, 0, 0, 0;
+            0, 0, 0, 0, 0, 1, 0, 0;
+            0, 0, 0, 0, 0, 0, 1, 0;
+            0, 0, 0, 0, 0, 0, 0, 1];
+
+% D matrix
+params.D = zeros(6, 3);
 
 end
