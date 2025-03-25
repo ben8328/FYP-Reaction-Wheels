@@ -18,7 +18,10 @@ params.I_z = 0.01;
 params.l = 0.1; % Centroid distance;
 params.m = 1.0;
 
-
+%% Equilibrium Points
+params.xbar = []; % Check "Balancing Cube Dynamics" notes
+%% Input Voltages
+params.ubar = [0;0;0];
 
 %% General Constants
 params.g = 9.81;
@@ -28,4 +31,8 @@ R_y = [cos(-35.3*pi/180) 0 sin(-35.3*pi/180); 0 1 0; -sin(-35.3*pi/180) 0 cos(-3
 R_x = [1 0 0; 0 cos(45*pi/180) -sin(45*pi/180); 0 sin(45*pi/180) cos(45*pi/180)];
 
 params.T_bf = R_y * R_x;
+
+%% Linearied Matrics
+
+
 end
