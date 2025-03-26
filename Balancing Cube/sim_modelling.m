@@ -24,11 +24,12 @@ sim.ic_pos = [0; 0; 0; 0; 0; 0];  % [d_alpha; d_beta; d_gamma; d_theta_a; d_thet
 sim.input_v = [0; 0; 0];
 
 
+
 %% Simulation Nonlinear Model
 % sim_nl.results = sim('nl_modelling');
 
 %% Simulation Nonlinear Model
 % sim_lin.results = sim("lin_modelling");    
 
-aero_title = 'Plot'; % TODO: Add extra states
+% aero_title = 'Plot'; % TODO: Add extra states
 % aero_plot(sim_nl.results, sim_lin.results)
