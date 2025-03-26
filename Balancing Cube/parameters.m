@@ -33,6 +33,11 @@ R_x = [1 0 0; 0 cos(45*pi/180) -sin(45*pi/180); 0 sin(45*pi/180) cos(45*pi/180)]
 params.T_bf = R_y * R_x;
 
 %% Linearied Matrics 
+
+% state vector x = [d_alpha d_beta d_gamma alpha beta d_theta_A d_theta_B d_theta_c]
+
+% output vector like y = [d_gamma alpha beta d_theta_A d_theta_B d_theta_C]
+
 % A matrix
 params.A = [0, 0, 0, params.m*params.g*params.l/(params.I_y - params.I_rw), 0, sqrt(6)*params.Kt^2/(3*params.Ra*(params.I_y - params.I_rw)), -sqrt(6)*params.Kt^2/(3*params.Ra*(params.I_y - params.I_rw)), -sqrt(6)*params.Kt^2/(3*params.Ra*(params.I_y - params.I_rw));
             0, 0, 0, 0, params.m*params.g*params.l/(params.I_x - params.I_rw), 0, sqrt(3)*params.Kt^2/(3*params.Ra*(params.I_x - params.I_rw)), -sqrt(3)*params.Kt^2/(3*params.Ra*(params.I_x - params.I_rw));
