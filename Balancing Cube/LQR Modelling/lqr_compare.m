@@ -68,6 +68,5 @@ else
     disp('Inputs exceed limits.');
 end
 
-sim_title = 'Time histories of the states for the nonlinear and linearised control systems about EPa';
-sim_plot(sim_nl.results, sim_lin.results, aero_title)
+sim_plot(sim_nl.results, sim_lin.results)
 
