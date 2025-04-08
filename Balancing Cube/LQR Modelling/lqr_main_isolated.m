@@ -15,9 +15,9 @@ params = parameters();
 sys = ss(params.A, params.B, params.C, params.D);
 
 % Check Step Response of Open-loop System
-% figure;
-% step(sys)
-% title('Open-loop Step Response')
+figure()
+step(sys)
+title('Open-loop Step Response')
 
 %% Linear Quadratic Regulator (LQR)
 
@@ -29,20 +29,20 @@ sys = ss(params.A, params.B, params.C, params.D);
 x0 = [0; 0; 0; 5*pi/180; 3*pi/180; 0; 0; 0];
 
 % Tuning states for smoother responses
-q1 = 500;   % Penalize state 1 less for smoother roll rate
-q2 = 0;   % Penalize state 2 less for smoother pitch reate
-q3 = 0;   % Penalize state 3 less for smoother yaw rate
-q4 = 0;   % roll position
-q5 = 0;   % pitch postion
-q6 = 2;   % Motor A velocity
-q7 = 0;   % Motor B velocity
-q8 = 0;   % Motor C velocity
+q1 = 1.2;   % Roll rate
+q2 = 2;   % Pitch reate
+q3 = 2;   % Yaw rate
+q4 = 140;   % roll position
+q5 = 160;   % pitch postion
+q6 = 10;   % Motor A velocity
+q7 = 10;   % Motor B velocity
+q8 = 10;   % Motor C velocity
 
 % Define an 8x8 Q matrix for state penalization
 Q = diag([q1, q2, q3, q4, q5, q6, q7, q8]);
 
 % Define the R matrix for input penalization 
-R = [0.01 0 0; 0 0.1 0; 0 0 0.1];  % More penalty on inputs
+R = diag([0.0001, 0.0001, 0.001]);  % More penalty on inputs
 
 % LQR gain matrix
 K = lqr(params.A, params.B, Q, R);
@@ -54,9 +54,9 @@ Acl = params.A - params.B*K;
 syscl = ss(Acl, params.B, params.C, params.D);
 
 % Step response of Closed-loop System
-% figure;
-% step(syscl)
-% title('Closed-loop Step Response')
+figure()
+step(syscl)
+title('Closed-loop Step Response')
 
 % Run response to initial condition
 t = 0:0.01:30;

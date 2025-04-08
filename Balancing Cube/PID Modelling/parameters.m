@@ -6,15 +6,15 @@ function [params] = parameters()
 %% DC Motor Object Parameters
 params.Kt = 0.01;  % torque constant [Nm/s]
 params.Ra = 1;    % armature resistance [Ohms]
-params.I_rw = 2;    % inertia of the x-axis reaction wheel [kg.sqm]
+params.I_rw = 01;    % inertia of the x-axis reaction wheel [kg.sqm]
 params.b = 0.1;   % friction constant [Nms]
 
 % Assume no Inductance (L) 
 
 %% Cube Object Parameters
-params.I_x = 0.05;
-params.I_y = 0.05;
-params.I_z = 0.05;
+params.I_x = 0.01;
+params.I_y = 0.01;
+params.I_z = 0.01;
 params.l = 0.1; % Centroid distance;
 params.m = 1.0;
 
@@ -44,7 +44,7 @@ params.A = [0, 0, 0, params.m*params.g*params.l/(params.I_y - params.I_rw), 0, s
             0, 0, 0, 0, 0, -sqrt(3)*params.Kt^2/(3*params.Ra*(params.I_z - params.I_rw)), -sqrt(3)*params.Kt^2/(3*params.Ra*(params.I_z - params.I_rw)), -sqrt(3)*params.Kt^2/(3*params.Ra*(params.I_z - params.I_rw));
             1, 0, 0, 0, 0, 0, 0, 0;
             0, 1, 0, 0, 0, 0, 0, 0;
-            0, 0, 0, 0, 0, -params.Kt^2/(params.Ra*params.I_rw), 0, 0;
+            0, 0, 1, 0, 0, -params.Kt^2/(params.Ra*params.I_rw), 0, 0;
             0, 0, 0, 0, 0, -params.Kt^2/(params.Ra*params.I_rw), -params.Kt^2/(params.Ra*params.I_rw), 0;
             0, 0, 0, 0, 0, -params.Kt^2/(params.Ra*params.I_rw), 0, -params.Kt^2/(params.Ra*params.I_rw)];
 

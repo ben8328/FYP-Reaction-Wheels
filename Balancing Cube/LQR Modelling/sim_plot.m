@@ -14,7 +14,7 @@ nl_alpha = sim_nl.x(:,4);
 nl_beta = sim_nl.x(:,1);
 nl_d_theta_A = sim_nl.x(:,2);
 nl_d_theta_B = sim_nl.x(:,3);
-nl_d_theta_c = sim_nl.x(:,4);
+nl_d_theta_C = sim_nl.x(:,4);
 nl_Va = sim_nl.u(:,1);
 nl_Vb = sim_nl.u(:,2);
 nl_Vc = sim_nl.u(:,3);
@@ -27,7 +27,7 @@ lin_alpha = sim_lin.x(:,4);
 lin_beta = sim_lin.x(:,1);
 lin_d_theta_A = sim_lin.x(:,2);
 lin_d_theta_B = sim_lin.x(:,3);
-lin_d_theta_c = sim_lin.x(:,4);
+lin_d_theta_C = sim_lin.x(:,4);
 lin_Va = sim_lin.u(:,1);
 lin_Vb = sim_lin.u(:,2);
 lin_Vc = sim_lin.u(:,3);
@@ -66,62 +66,114 @@ ylabel('Pitch Input Voltage [V]')
 legend('$V_C$ Non-Linear', '$V_C$ Linearised', 'Interpreter', 'latex');
 grid on
 
-% States
+sgtitle('Input Voltages' , 'FontSize', 12);
 
-subplot(5,1,2)
-plot(nl_t,nl_x2*180/pi, "b")
+%% Cube Rates
+figure()
+
+subplot(3,1,1)
+plot(nl_t,nl_d_alpha*180/pi, "b")
 hold on 
-plot(lin_t,lin_x2*180/pi, 'r--')
+plot(lin_t,lin_d_alpha*180/pi, 'r--')
 hold off
 xlabel('Time [s]')
-ylabel('Yaw Angle [deg]')
-legend({'$x_2$ Non-Linear', '$x_2$ Linearised'}, 'Interpreter', 'latex');
-% ylim([-60 120])
-% xlim([0 14])
+ylabel('Roll Rate [deg/sec]')
+legend({'$\dot \alpha$ Non-Linear', '$\dot \alpha$ Linearised'}, 'Interpreter', 'latex');
 grid on
 grid minor
 
-subplot(5,1,3)
-plot(nl_t,nl_x3*180/pi, "b")
+subplot(3,1,2)
+plot(nl_t,nl_d_beta*180/pi, "b")
 hold on 
-plot(lin_t,lin_x3*180/pi, 'r--')
+plot(lin_t,lin_d_beta*180/pi, 'r--')
 hold off
 xlabel('Time [s]')
-ylabel('Pitch Rate [deg/s]')
-legend({'$x_3$ Non-Linear', '$x_3$ Linearised'}, 'Interpreter', 'latex');
-% ylim([-60 120])
-% xlim([0 14])
+ylabel('Pitch Rate [deg/sec]')
+legend({'$\dot \beta$ Non-Linear', '$\dot \beta$ Linearised'}, 'Interpreter', 'latex');
 grid on
 grid minor
 
-subplot(5,1,4)
-plot(nl_t,nl_x4*180/pi, "b")
+subplot(3,1,3)
+plot(nl_t,nl_d_gamma*180/pi, "b")
 hold on 
-plot(lin_t,lin_x4*180/pi, 'r--')
+plot(lin_t,lin_d_gamma*180/pi, 'r--')
 hold off
 xlabel('Time [s]')
-ylabel('Yaw rate [deg/s]')
-legend({'$x_4$ Non-Linear', '$x_4$ Linearised'}, 'Interpreter', 'latex');
-% ylim([min(lin_x4*180/pi) max(lin_x4*180/pi)])
-% xlim([0 14])
+ylabel('Yaw Rate [deg/sec]')
+legend({'$\dot \gamma$ Non-Linear', '$\dot \gamma$ Linearised'}, 'Interpreter', 'latex');
 grid on
 grid minor
 
-subplot(5,1,5)
-plot(nl_t,nl_vp, "b")
+sgtitle('Cube Rates' , 'FontSize', 12);
+%% State Outputs
+
+figure()
+
+subplot(3,2,1)
+plot(nl_t,nl_d_gamma*180/pi, "b")
 hold on 
-plot(nl_t,nl_vy, "g")
-plot(lin_t,lin_vp, "r--")
-plot(lin_t,lin_vy, "k--")
+plot(lin_t,lin_d_gamma*180/pi, 'r--')
 hold off
 xlabel('Time [s]')
-ylabel('Input Voltage [V]')
-legend("V_p Non-Linear", "V_y Non-Linear", "V_p Linearised", "V_y Linearised")
-% ylim([-60 120])
-% xlim([0 14])
+ylabel('Yaw Rate [deg/sec]')
+legend({'$\dot \gamma$ Non-Linear', '$\dot \gamma$ Linearised'}, 'Interpreter', 'latex');
 grid on
 grid minor
 
-% Plot title
-% sgtitle(plot_title , 'FontSize', 8);
+subplot(3,2,2)
+plot(nl_t,nl_alpha*180/pi, "b")
+hold on 
+plot(lin_t,lin_alpha*180/pi, 'r--')
+hold off
+xlabel('Time [s]')
+ylabel('Roll Angle [deg]')
+legend({'$\alpha$ Non-Linear', '$\alpha$ Linearised'}, 'Interpreter', 'latex');
+grid on
+grid minor
+
+subplot(3,2,3)
+plot(nl_t,nl_beta*180/pi, "b")
+hold on 
+plot(lin_t,lin_beta*180/pi, 'r--')
+hold off
+xlabel('Time [s]')
+ylabel('Pitch Angle [deg]')
+legend({'$\beta$ Non-Linear', '$\beta$ Linearised'}, 'Interpreter', 'latex');
+grid on
+grid minor
+
+subplot(3,2,4)
+plot(nl_t,nl_d_theta_A*180/pi, "b")
+hold on 
+plot(lin_t,lin_d_theta_A*180/pi, 'r--')
+hold off
+xlabel('Time [s]')
+ylabel('RW_A Rate [deg/sec]')
+legend({'$\dot \theta_A$ Non-Linear', '$\dot \theta_A$ Linearised'}, 'Interpreter', 'latex');
+grid on
+grid minor
+
+subplot(3,2,5)
+plot(nl_t,nl_d_theta_B*180/pi, "b")
+hold on 
+plot(lin_t,lin_d_theta_B*180/pi, 'r--')
+hold off
+xlabel('Time [s]')
+ylabel('RW_B Rate [deg/sec]')
+legend({'$\dot \theta_B$ Non-Linear', '$\dot \theta_B$ Linearised'}, 'Interpreter', 'latex');
+grid on
+grid minor
+
+subplot(3,2,6)
+plot(nl_t,nl_d_theta_C*180/pi, "b")
+hold on 
+plot(lin_t,lin_d_theta_C*180/pi, 'r--')
+hold off
+xlabel('Time [s]')
+ylabel('RW_C Rate [deg/sec]')
+legend({'$\dot \theta_C$ Non-Linear', '$\dot \theta_C$ Linearised'}, 'Interpreter', 'latex');
+grid on
+grid minor
+
+sgtitle('Output Vector' , 'FontSize', 12);
 end
