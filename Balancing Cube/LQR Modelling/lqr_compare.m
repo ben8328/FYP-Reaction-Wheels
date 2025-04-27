@@ -15,7 +15,7 @@ clc
 params = parameters();
 
 % Simulation Parameters
-params.simtime = 20; % In seconds
+params.simtime = 10; % In seconds
 params.u = [0; 0; 0];
 
 % Initial Conditions of the Controller
@@ -31,20 +31,20 @@ params.ubar = [0; 0; 0];
 params.ybar = params.C*params.xbar; % Output 
 
 % Tuning states for smoother responses
-q1 = 5;    % Roll rate
-q2 = 10;    % Pitch rate
+q1 = 10;    % Roll rate
+q2 = 2;    % Pitch rate
 q3 = 1;    % Yaw rate
 q4 = 20;   % Roll angle
 q5 = 20;   % Pitch angle
-q6 = 2;    % Motor A velocity
-q7 = 2;    % Motor B velocity
+q6 = 1;    % Motor A velocity
+q7 = 1;    % Motor B velocity
 q8 = 1;    % Motor C velocity
 
 % Define an 8x8 Q matrix for state penalization
 params.Q = diag([q1, q2, q3, q4, q5, q6, q7, q8]);
 
 % Define the R matrix for input penalization 
-params.R = diag([0.0009, 0.0009, 0.1]);  % More penalty on inputs
+params.R = diag([0.4, 1, 1]);  % More penalty on inputs
 
 %% Controller Design
 % Compute K (Gain of Controller) and Checks Controlability
@@ -68,7 +68,7 @@ sim_nl.results = sim("lqr_nl");
 sim_lin.results = sim("lqr_lin");
 
 % Check if inputs do not exceed their maximum values [15V for now seems reasonable]
-if max(sim_lin.results.u(1)) <= 15 && max(sim_lin.results.u(2)) <= 15 && max(sim_lin.results.u(3)) <= 15
+if abs(max(sim_lin.results.u(1))) <= 15 && abs(max(sim_lin.results.u(2))) <= 15 && abs(max(sim_lin.results.u(3))) <= 15
     disp('Inputs within limits.');
 else
     disp('Inputs exceed limits.');

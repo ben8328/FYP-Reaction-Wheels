@@ -6,7 +6,9 @@ function [params] = parameters()
 %% DC Motor Object Parameters
 params.Kt = 0.01;  % torque constant [Nm/s]
 params.Ra = 1;    % armature resistance [Ohms]
-params.I_rw = 2;    % inertia of the x-axis reaction wheel [kg.sqm]
+params.rw_m = 0.500; % Mass of the RW disk;
+params.rw_r = .2;   % Radius of the RW disk
+params.I_rw = 0.5 *params.rw_m*params.rw_r^2;    % inertia of the x-axis reaction wheel [kg.sqm]
 params.b = 0.1;   % friction constant [Nms]
 
 % Assume no Inductance (L) 
@@ -39,19 +41,19 @@ params.T_bf = R_y * R_x;
 % output vector like y = [d_gamma alpha beta d_theta_A d_theta_B d_theta_C]
 
 % A matrix
-params.A = [0, 0, 0, params.m*params.g*params.l/(params.I_y - params.I_rw), 0, sqrt(6)*params.Kt^2/(3*params.Ra*(params.I_y - params.I_rw)), -sqrt(6)*params.Kt^2/(3*params.Ra*(params.I_y - params.I_rw)), -sqrt(6)*params.Kt^2/(3*params.Ra*(params.I_y - params.I_rw));
+params.A = [0, 0, 0, params.m*params.g*params.l/(params.I_y - params.I_rw), 0, (sqrt(6)/3)*(params.Kt^2/params.Ra)*(1/(params.I_y - params.I_rw)), -(sqrt(6)/6)*(params.Kt^2/params.Ra)*(1/(params.I_y - params.I_rw)), -(sqrt(6)/6)*(params.Kt^2/params.Ra)*(1/(params.I_y - params.I_rw));
             0, 0, 0, 0, params.m*params.g*params.l/(params.I_x - params.I_rw), 0, sqrt(2)*params.Kt^2/(2*params.Ra*(params.I_x - params.I_rw)), -sqrt(2)*params.Kt^2/(2*params.Ra*(params.I_x - params.I_rw));
-            0, 0, 0, 0, 0, -sqrt(3)*params.Kt^2/(3*params.Ra*(params.I_z - params.I_rw)), -sqrt(3)*params.Kt^2/(3*params.Ra*(params.I_z - params.I_rw)), -sqrt(3)*params.Kt^2/(3*params.Ra*(params.I_z - params.I_rw));
+            0, 0, 0, 0, 0, -params.Kt^2/(sqrt(3)*params.Ra*(params.I_z - params.I_rw)), -params.Kt^2/(sqrt(3)*params.Ra*(params.I_z - params.I_rw)), -params.Kt^2/(sqrt(3)*params.Ra*(params.I_z - params.I_rw));
             1, 0, 0, 0, 0, 0, 0, 0;
             0, 1, 0, 0, 0, 0, 0, 0;
             0, 0, 0, 0, 0, -params.Kt^2/(params.Ra*params.I_rw), 0, 0;
-            0, 0, 0, 0, 0, -params.Kt^2/(params.Ra*params.I_rw), -params.Kt^2/(params.Ra*params.I_rw), 0;
-            0, 0, 0, 0, 0, -params.Kt^2/(params.Ra*params.I_rw), 0, -params.Kt^2/(params.Ra*params.I_rw)];
+            0, 0, 0, 0, 0, 0, -params.Kt^2/(params.Ra*params.I_rw), 0;
+            0, 0, 0, 0, 0, 0, 0, -params.Kt^2/(params.Ra*params.I_rw)];
 
 % B matrix
-params.B = [sqrt(6)*params.Kt/(3*params.Ra*(params.I_y - params.I_rw)), sqrt(6)*params.Kt/(6*params.Ra*(params.I_y - params.I_rw)), sqrt(6)*params.Kt/(6*params.Ra*(params.I_y - params.I_rw));
+params.B = [-sqrt(6)*params.Kt/(3*params.Ra*(params.I_y - params.I_rw)), sqrt(6)*params.Kt/(6*params.Ra*(params.I_y - params.I_rw)), sqrt(6)*params.Kt/(6*params.Ra*(params.I_y - params.I_rw));
             0, -sqrt(2)*params.Kt/(2*params.Ra*(params.I_x - params.I_rw)), sqrt(2)*params.Kt/(2*params.Ra*(params.I_x - params.I_rw));
-            -sqrt(3)*params.Kt/(3*params.Ra*(params.I_z - params.I_rw)), -sqrt(3)*params.Kt/(3*params.Ra*(params.I_z - params.I_rw)), -sqrt(3)*params.Kt/(3*params.Ra*(params.I_z - params.I_rw));
+            -params.Kt/(sqrt(3)*params.Ra*(params.I_z - params.I_rw)), -params.Kt/(sqrt(3)*params.Ra*(params.I_z - params.I_rw)), -sqrt(3)*params.Kt/(3*params.Ra*(params.I_z - params.I_rw));
             0, 0, 0;
             0, 0, 0;
             params.Kt/(params.Ra*params.I_rw), 0, 0;
