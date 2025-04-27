@@ -15,8 +15,8 @@ clc
 params = parameters();
 
 % Simulation Parameters
-params.simtime = 30; % In seconds
-params.u = 0;
+params.simtime = 10; % In seconds
+params.u = [0; 0; 0];
 
 % Initial Conditions of the Controller
 params.ic = [0; 0; 0; 5*pi/180; 3*pi/180; 0; 0; 0];
@@ -31,24 +31,28 @@ params.ubar = [0; 0; 0];
 params.ybar = params.C*params.xbar; % Output 
 
 % Tuning states for smoother responses
-q1 = 500;   % Penalize state 1 less for smoother roll rate
-q2 = 0;   % Penalize state 2 less for smoother pitch reate
-q3 = 0;   % Penalize state 3 less for smoother yaw rate
-q4 = 0;   % roll position
-q5 = 0;   % pitch postion
-q6 = 2;   % Motor A velocity
-q7 = 0;   % Motor B velocity
-q8 = 0;   % Motor C velocity
+q1 = 10;    % Roll rate
+q2 = 2;    % Pitch rate
+q3 = 1;    % Yaw rate
+q4 = 20;   % Roll angle
+q5 = 20;   % Pitch angle
+q6 = 1;    % Motor A velocity
+q7 = 1;    % Motor B velocity
+q8 = 1;    % Motor C velocity
 
 % Define an 8x8 Q matrix for state penalization
 params.Q = diag([q1, q2, q3, q4, q5, q6, q7, q8]);
 
 % Define the R matrix for input penalization 
-params.R = [0.01 0 0; 0 0.1 0; 0 0 0.1];  % More penalty on inputs
+params.R = diag([0.4, 1, 1]);  % More penalty on inputs
 
 %% Controller Design
 % Compute K (Gain of Controller) and Checks Controlability
 [COcheck, params.K] = lqr_design(params.ic, params.A, params.B, params.Q, params.R);
+
+u0 = -params.K * (params.iclin);
+disp('Initial Control Input = ');
+disp(u0);
 %% Observer Design
 % % Select eigenvalues for Observer
 % params.obs_eig = [-10, -11, -12, -13];
@@ -56,18 +60,19 @@ params.R = [0.01 0 0; 0 0.1 0; 0 0 0.1];  % More penalty on inputs
 % [params.OBcheck,params.L] = aero_obs_design(params.A,params.C,params.obs_eig);
 
 %% Simulation Nonlinear Model
+
+%TODO: This is wrong because it uses LIN K parameter
 sim_nl.results = sim("lqr_nl");
 
 %% Simulation Nonlinear Model
 sim_lin.results = sim("lqr_lin");
 
 % Check if inputs do not exceed their maximum values [15V for now seems reasonable]
-if max(sim_lin.results.u(1)) <= 15 && max(sim_lin.results.u(2)) <= 15 && max(sim_lin.results.u(3)) <= 15
+if abs(max(sim_lin.results.u(1))) <= 15 && abs(max(sim_lin.results.u(2))) <= 15 && abs(max(sim_lin.results.u(3))) <= 15
     disp('Inputs within limits.');
 else
     disp('Inputs exceed limits.');
 end
 
-sim_title = 'Time histories of the states for the nonlinear and linearised control systems about EPa';
-sim_plot(sim_nl.results, sim_lin.results, aero_title)
+sim_plot(sim_nl.results, sim_lin.results)
 

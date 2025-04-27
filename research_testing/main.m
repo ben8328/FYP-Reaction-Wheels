@@ -1,4 +1,4 @@
-lear
+clear
 clc
 close all
 
@@ -36,9 +36,9 @@ motor.tf_den = [motor.Jrw_x, motor.b + (motor.Ke*motor.Kt)/motor.Ra];
 time = 40;
 
 % Desired Input Angles
-phi_in = (0)*(pi/180)      % Roll Angle [Rads]
+phi_in = (45)*(pi/180)      % Roll Angle [Rads]
 theta_in = (45)*(pi/180)    % Pitch Angle [Rads]
-psi_in = (90)*(pi/180)       % Yaw Angle [Rads]
+psi_in = (0)*(pi/180)       % Yaw Angle [Rads]
 
 % Height [m]
 h = -600000;     % LEO typical Height
