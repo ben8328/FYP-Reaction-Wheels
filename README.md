@@ -11,6 +11,9 @@ This project demonstrates:
 - Closed-loop feedback control of DC motors with reaction wheels.
 - Real-time command interface and data logging over serial.
 
+![Cube-final-hardware-int](https://github.com/user-attachments/assets/0ff3d103-3bd4-4a26-85df-27ede13589c4)
+
+
 The goal is to build an autonomous, real-time feedback-controlled cube that demonstrates the effectiveness of control algorithms typically used in CubeSat Attitude Control Systems.
 
 ## Controller Design
@@ -28,7 +31,8 @@ All controller gains (`K` matrix) were computed in MATLAB and hardcoded into `co
 
 ## System Overview
 
-TODO: System Diagram Here
+![Balancing Cube System diagram](https://github.com/user-attachments/assets/95e8e0ee-25dc-4db7-9db3-da34c9f83093)
+
 
 
 ## Hardware Components
@@ -62,7 +66,10 @@ Open with VSCode, select the appropriate build task (build), and flash using ST-
 
 ## Command Parser 
 - Use serial commands to test hardware setup:
-- Command Parser here
+<img width="450" alt="image" src="https://github.com/user-attachments/assets/d2cc02c8-77d6-4433-9ebc-d662990f4a40" />
+
+
+
 
 ##  Simulation & Validation
 Before deploying to hardware, a full nonlinear Simulink model was used to validate the LQR control law under various initial conditions.
