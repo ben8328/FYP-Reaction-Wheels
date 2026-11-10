@@ -1,5 +1,4 @@
 %%% Name: Ben Miller
-%%% Student Number: c3328484
 
 function [COcheck,K] = aero_lqr_design(x_ic,A,B,Q,R)
 

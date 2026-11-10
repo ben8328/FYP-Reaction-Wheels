@@ -50,7 +50,7 @@ TODO: System Diagram Here
 ### Setup
 
 1. **Clone this repository**:
-   `git clone https://github.com/ben8328/balancing_cube.git`
+   `git clone https://github.com/ben8328/FYP-Reaction-Wheels.git`
 
 2.	Build the project:
 Open with VSCode, select the appropriate build task (build), and flash using ST-Link or USB.

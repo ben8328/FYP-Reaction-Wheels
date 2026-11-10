@@ -1,5 +1,4 @@
 %%% Name: Ben Miller
-%%% Student Number: c3328484
 
 function sim_plot(sim_lin)
 

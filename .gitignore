@@ -1,0 +1,16 @@
+# Build output (recreated by make)
+build/
+bin/
+test/build/
+*.o
+*.d
+*.elf
+*.map
+
+# MATLAB / Simulink autosave and cache
+*.asv
+*.slxc
+slprj/
+
+# OS / editor
+.DS_Store
